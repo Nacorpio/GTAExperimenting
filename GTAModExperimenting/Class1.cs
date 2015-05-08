@@ -13,53 +13,68 @@ using GTA.Native;
 namespace GTAModExperimenting
 {
 
-    
-
     public class Experimenting : Script {
 
-        private UIMenu mMenu1 = null;
-        private Player player = null;
+        private readonly UIMenu _menu1 = null;
+        private readonly UIMenu _menu2 = null;
+
+        private readonly Player _player = null;
        
         public Experimenting() {
 
             Tick += OnTick;
             KeyDown += OnKeyDown;
 
-            mMenu1 = new UIMenu("Main Menu");
+            _menu1 = new UIMenu("Main Menu");
+            _menu2 = new UIMenu("Sub Menu #1");
+            _menu2.Visible = false;
 
             Initialize();
 
-            player = Game.Player;
+            _player = Game.Player;
 
         }
 
         private void Initialize() {
 
-            UIButton btnKill = mMenu1.AddButton("Kill", "Kills the player");
-            UIButton btnClose = mMenu1.AddButton("Close Menu", "Closes this menu");
-            UIToggleButton btnToggle = mMenu1.AddToggleButton("Toggle", "An example toggle");
-            UINumericalButton btnNumeric = mMenu1.AddNumericalButton("Numeric", "An example numeric", 0, 100, 0);
-            UISwitchButton btnSwitch = mMenu1.AddSwitchButton("Switch", "An example switch", new string[] {"Element1", "Element2"});
+            UIButton btnKill = _menu1.AddButton("Kill", "Kills the player");
+            UIButton btnOpenSub = _menu1.AddButton("Open Sub Menu", "Closes this menu");
+
+            UIToggleButton btnToggle = _menu1.AddToggleButton("Toggle", "An example toggle");
+            UINumericalButton btnNumeric = _menu1.AddNumericalButton("Numeric", "An example numeric", 0, 100, 0);
+            UISwitchButton btnSwitch = _menu1.AddSwitchButton("Switch", "An example switch", new string[] {"Element1", "Element2", "Element3"});
+
+            UIButton exampleButton = _menu2.AddButton("Example", "An example button");
+            UIButton backButton = _menu2.AddButton("Go back", "Go back to main-menu");
 
             btnKill.Click += OnButtonKillClick;
-            btnClose.Click += OnButtonCloseMenuClick;
+            btnOpenSub.Click += OnButtonCloseMenuClick;
+            backButton.Click += BackButtonOnClick;
 
+        }
+
+        private void BackButtonOnClick(object tag, object sender, EventArgs eventArgs) {
+            _menu1.Open();
+            _menu2.Close();
         }
 
         private void OnButtonCloseMenuClick(object tag, object sender, EventArgs eventArgs) {
-            mMenu1.Visible = false;
+            _menu1.Close();
+            _menu2.Open();
         }
 
         private void OnButtonKillClick(object tag, object sender, EventArgs e) {
-            player.Character.Kill();
+            _player.Character.Kill();
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e) {
-            mMenu1.ProcessKey(e.KeyCode);
+            if (_menu1.Visible) _menu1.ProcessKey(e.KeyCode);
+            if (_menu2.Visible) _menu2.ProcessKey(e.KeyCode);  
         }
 
         private void OnTick(Object obj, EventArgs e) {
-            mMenu1.Draw();
+            _menu1.Draw();
+            _menu2.Draw();
         }
 
     }

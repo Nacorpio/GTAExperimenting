@@ -24,6 +24,20 @@ namespace GTAModExperimenting {
             }
         }
 
+        private bool hasNext() {
+            if (_currentIndex + 1 <= _items.Length - 1) {
+                return true;
+            }
+            return false;
+        }
+
+        private bool hasPrevious() {
+            if (_currentIndex - 1 >= 0) {
+                return true;
+            }
+            return false;
+        }
+
         public void Next() {
             if (_currentIndex + 1 <= _items.Length - 1) {
                 _currentIndex += 1;

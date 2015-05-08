@@ -37,6 +37,16 @@ namespace GTAModExperimenting {
             }
         }
 
+        public void Close() {
+            if (Visible)
+                Visible = false;
+        }
+
+        public void Open() {
+            if (!Visible)
+                Visible = true;
+        }
+
         private void SelectNext() {
             if (_selectedIndex + 1 != listButtons.Count) {
                 _selectedIndex += 1;
@@ -213,6 +223,7 @@ namespace GTAModExperimenting {
             }
             set {
                 _visible = value;
+                // _selectedIndex = 0;
             }
         }
 
