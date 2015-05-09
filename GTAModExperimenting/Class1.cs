@@ -28,39 +28,24 @@ namespace GTAModExperimenting
 
         }
 
-        private UISwitchButton createdBlipSwitchButton = null;
         private void Initialize() {
 
-            UIButton modSpoilerButton = _menu1.AddButton("Add Spoiler", "Adds a spoiler to this vehicle");
-            UIButton modWindowTintButton = _menu1.AddButton("Add Engine", "Adds a respectable engine to this vehicle");
+            UIButton radiusBlipButton = _menu1.AddButton("Create Radius Blip", "Creates a blip with a radius at the current coordinates");
+            UIButton blipButton = _menu1.AddButton("Create Blip", "Creates a blip at the current coordinates");
 
-            modSpoilerButton.Click += ModSpoilerButtonOnClick;
-            modWindowTintButton.Click += ModWindowTintButtonOnClick;
-
-        }
-
-        private void ModWindowTintButtonOnClick(object tag, object sender, EventArgs eventArgs) {
-            Ped playerPed = _player.Character;
-            if (playerPed.IsInVehicle()) {
-
-                Vehicle playerVehicle = playerPed.CurrentVehicle;
-                playerVehicle.SetMod(VehicleMod.Engine, 4, true);
-                Function.Call(Hash.MOD);
-
-            }
-        }
-
-        private void ModSpoilerButtonOnClick(object tag, object sender, EventArgs eventArgs) {
-
-            Ped playerPed = _player.Character;
-            if (playerPed.IsInVehicle()) {
-
-                Vehicle playerVehicle = playerPed.CurrentVehicle;
-                playerVehicle.SetMod(VehicleMod.Spoilers, 0, true);
-
-            }
+            radiusBlipButton.Click += RadiusBlipButtonOnClick;
+            blipButton.Click += BlipButtonOnClick;
 
         }
+
+        private void BlipButtonOnClick(object tag, object sender, EventArgs eventArgs) {
+            Blip blip = Blip.Create(_player.Character.Position);
+        }
+
+        private void RadiusBlipButtonOnClick(object tag, object sender, EventArgs eventArgs) {
+            Blip blip = Blip.Create(_player.Character.Position, 100f);
+        }
+
 
         private void OnKeyDown(object sender, KeyEventArgs e) {
             if (_menu1.Visible) _menu1.ProcessKey(e.KeyCode);

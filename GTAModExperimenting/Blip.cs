@@ -25,7 +25,11 @@ namespace GTAModExperimenting {
             return new Blip(Function.Call<int>(Hash.ADD_BLIP_FOR_ENTITY, new InputArgument(entity)));
         }
 
-        public static Blip Delete(int id) {
+        public static Blip Create(Vector3 position, float radius) {
+            return new Blip(Function.Call<int>(Hash.ADD_BLIP_FOR_RADIUS, new InputArgument[] {position.X, position.Y, position.Z, radius}));
+        }
+
+        public static void Delete(int id) {
             Function.Call(Hash.REMOVE_BLIP, new InputArgument(id));
         }
 
