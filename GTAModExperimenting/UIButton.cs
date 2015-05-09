@@ -57,6 +57,11 @@ namespace GTAModExperimenting {
             }
         }
 
+        public string Description {
+            get { return mDescription.Text; }
+            set { mDescription.Text = value; }
+        }
+
         public Point Location {
             get;
             set;

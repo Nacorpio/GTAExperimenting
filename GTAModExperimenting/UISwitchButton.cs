@@ -12,7 +12,7 @@ namespace GTAModExperimenting {
 
         private string _currentItem = "";
         private int _currentIndex = -1;
-        private readonly string[] _items;
+        private string[] _items;
 
         public UISwitchButton(string text, string desc, string[] items, int x, int y) : base(text, desc, x, y, Color.White) {
             this._items = items;
@@ -68,7 +68,10 @@ namespace GTAModExperimenting {
 
         public string Value { get { return _currentItem; }}
 
-        public string[] Items { get { return _items; }}
+        public string[] Items {
+            get { return _items; }
+            set { _items = value; }
+        }
 
     }
 }

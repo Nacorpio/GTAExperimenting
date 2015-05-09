@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Security.Policy;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using GTA;
 using GTA.Math;
 using GTA.Native;
@@ -15,9 +10,9 @@ namespace GTAModExperimenting
 
     public class Experimenting : Script {
 
-        private readonly UIMenu _menu1 = null;
-        private readonly UIMenu _menu2 = null;
+        private List<Blip> blips = new List<Blip>();
 
+        private readonly UIMenu _menu1;
         private readonly Player _player = null;
        
         public Experimenting() {
@@ -26,8 +21,6 @@ namespace GTAModExperimenting
             KeyDown += OnKeyDown;
 
             _menu1 = new UIMenu("Main Menu");
-            _menu2 = new UIMenu("Sub Menu #1");
-            _menu2.Visible = false;
 
             Initialize();
 
@@ -35,46 +28,46 @@ namespace GTAModExperimenting
 
         }
 
+        private UISwitchButton createdBlipSwitchButton = null;
         private void Initialize() {
 
-            UIButton btnKill = _menu1.AddButton("Kill", "Kills the player");
-            UIButton btnOpenSub = _menu1.AddButton("Open Sub Menu", "Closes this menu");
+            UIButton modSpoilerButton = _menu1.AddButton("Add Spoiler", "Adds a spoiler to this vehicle");
+            UIButton modWindowTintButton = _menu1.AddButton("Add Engine", "Adds a respectable engine to this vehicle");
 
-            UIToggleButton btnToggle = _menu1.AddToggleButton("Toggle", "An example toggle");
-            UINumericalButton btnNumeric = _menu1.AddNumericalButton("Numeric", "An example numeric", 0, 100, 0);
-            UISwitchButton btnSwitch = _menu1.AddSwitchButton("Switch", "An example switch", new string[] {"Element1", "Element2", "Element3"});
-
-            UIButton exampleButton = _menu2.AddButton("Example", "An example button");
-            UIButton backButton = _menu2.AddButton("Go back", "Go back to main-menu");
-
-            btnKill.Click += OnButtonKillClick;
-            btnOpenSub.Click += OnButtonCloseMenuClick;
-            backButton.Click += BackButtonOnClick;
+            modSpoilerButton.Click += ModSpoilerButtonOnClick;
+            modWindowTintButton.Click += ModWindowTintButtonOnClick;
 
         }
 
-        private void BackButtonOnClick(object tag, object sender, EventArgs eventArgs) {
-            _menu1.Open();
-            _menu2.Close();
+        private void ModWindowTintButtonOnClick(object tag, object sender, EventArgs eventArgs) {
+            Ped playerPed = _player.Character;
+            if (playerPed.IsInVehicle()) {
+
+                Vehicle playerVehicle = playerPed.CurrentVehicle;
+                playerVehicle.SetMod(VehicleMod.Engine, 4, true);
+                Function.Call(Hash.MOD);
+
+            }
         }
 
-        private void OnButtonCloseMenuClick(object tag, object sender, EventArgs eventArgs) {
-            _menu1.Close();
-            _menu2.Open();
-        }
+        private void ModSpoilerButtonOnClick(object tag, object sender, EventArgs eventArgs) {
 
-        private void OnButtonKillClick(object tag, object sender, EventArgs e) {
-            _player.Character.Kill();
+            Ped playerPed = _player.Character;
+            if (playerPed.IsInVehicle()) {
+
+                Vehicle playerVehicle = playerPed.CurrentVehicle;
+                playerVehicle.SetMod(VehicleMod.Spoilers, 0, true);
+
+            }
+
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e) {
             if (_menu1.Visible) _menu1.ProcessKey(e.KeyCode);
-            if (_menu2.Visible) _menu2.ProcessKey(e.KeyCode);  
         }
 
         private void OnTick(Object obj, EventArgs e) {
             _menu1.Draw();
-            _menu2.Draw();
         }
 
     }
