@@ -90,6 +90,24 @@ namespace GTAModExperimenting {
         public bool ShowCone {
             set { Function.Call(Hash.SET_BLIP_SHOW_CONE, new InputArgument(value)); }
         }
-
+        public int Colour
+        {
+            set { Function.Call(Hash.SET_BLIP_COLOUR, new InputArgument(id), new InputArgument(value)); }
+            get { return Function.Call<int>(Hash.GET_BLIP_COLOUR, new InputArgument(id)); }
+        }
+        public bool Route
+        {
+            set { Function.Call(Hash.SET_BLIP_ROUTE, new InputArgument(id), new InputArgument(value)); }
+        }
+        public int Sprite
+        {
+            set { Function.Call(Hash.SET_BLIP_SPRITE, new InputArgument(id), new InputArgument(value)); }
+            get { return Function.Call<int>(Hash.GET_BLIP_SPRITE, new InputArgument(id)); }
+        }
+        public float Alpha
+        {
+            set { Function.Call(Hash.SET_BLIP_ALPHA, new InputArgument(id), new InputArgument(value)); }
+            get { return Function.Call<float>(Hash.GET_BLIP_ALPHA, new InputArgument(id)); }
+        }
     }
 }
