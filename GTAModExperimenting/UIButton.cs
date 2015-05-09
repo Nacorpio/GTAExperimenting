@@ -24,7 +24,7 @@ namespace GTAModExperimenting {
 
         public UIButton(String text, String desc, int x, int y, Color color) {
             mText = new UIText(text, new Point(x + 5, y + 5), 0.5f, color, 4, false);
-            mDescription = new UIText(desc, new Point(x + 5, y + 24), 0.40f, Color.White, 1, false);
+            mDescription = new UIText(desc, new Point(x + 5, y + 24), 0.35f, Color.White, 1, false);
             name = text;
         }
 
@@ -86,7 +86,7 @@ namespace GTAModExperimenting {
                 case false:
                     // Text = Text.Replace(">", "").Replace("<", "").Trim();
                     Size = 0.5f;
-                    mDescription.Size = 0.4f;
+                    mDescription.Size = 0.35f;
                     break;
             }
         }
